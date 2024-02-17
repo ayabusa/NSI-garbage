@@ -5,7 +5,6 @@ import random as random
 instant_speed = False
 nb_batiment = 5
 
-
 # mini interface
 print("""
 __________         __  .__                       __                
@@ -14,26 +13,26 @@ __________         __  .__                       __
  |    |   \ / __ \|  | |  |  Y Y  \  ___/|   |  \  | (  <_> )  | \/
  |______  /(____  /__| |__|__|_|  /\___  >___|  /__|  \____/|__|   
         \/      \/              \/     \/     \/                   
+                                        ~ par Maxime S. et Léon R.
 """)
 a = input("Voullez vous une vitesse instantanée ? (Y/N) \n(N par défaut) : ")
-b = input("Combien de battiment voullez vous ? \n(5 par défaut) : ")
+b = input("Combien de battiments voullez vous ? \n(5 par défaut) : ")
+### Faut qu'on ajoute d'autres options ###
 
 if (a.capitalize() != "Y" and  a.capitalize() != "N" and  a != ""):
-    print("Merci d'entrer une valeur valide >_<")
+    print("Merci d'entrer une valeur valide pour la vitesse >_<")
 elif a == "Y":
     instant_speed = True
 if b != "":
     try:
         nb_batiment = int(b)
     except:
-        print("Merci d'entrer une valeur valide >_<")
-
-# invite l'utilisateur à personnaliser la fenêtre
-
+        print("Merci d'entrer une valeur valide pour le nb de battiments >_<")
 
 # met en plein écran
 screen = t.Screen()
 screen.setup(width = 1.0, height = 1.0)
+
 # met les couleurs en mode rgb
 t.colormode(255)
 t.speed("fastest")
@@ -43,9 +42,9 @@ screen.bgcolor(46,35,74)
 if instant_speed == True:
     t.tracer(0, 0)
 
-def toit():
+def toit_pointu():
+    ''' Fonction qui trace un toit pointu '''
     t.begin_fill()
-    ''' Fonction qui trace le toit '''
     # met la tortue au bon endroit (100 vers le haut)
     t.penup()
     t.left(90)
@@ -60,7 +59,7 @@ def toit():
     t.penup()
 
 def toit_rond():
-    ''' Fonction qui trace le toit rond '''
+    ''' Fonction qui trace un toit rond '''
     # met la tortue au bon endroit (100 vers le haut)
     t.penup()
     t.left(90)
@@ -78,8 +77,8 @@ def toit_rond():
     t.penup()
 
 def bas():
+    ''' Fonction qui trace le rez de chaussez sans fenêtre '''
     t.begin_fill()
-    ''' Fonction qui trace le rez de chaussez '''
     # fait le carré principal
     for i in range(4):
         t.forward(100)
@@ -104,8 +103,8 @@ def bas():
     t.end_fill()
     t.penup()
 
-def bas_fene():
-    ''' Fonction qui trace le rez de chaussez '''
+def bas_fenetre():
+    ''' Fonction qui trace le rez de chaussez avec une fenêtre '''
     t.begin_fill()
     # fait le carré principal
     for i in range(4):
@@ -156,8 +155,8 @@ def bas_fene():
  
     t.penup()
 
-def étage():
-    ''' Fonction qui trace l'étage '''
+def etage():
+    ''' Fonction qui trace un étage avec une seule fenêtre '''
     t.begin_fill()
 
     t.left(90)
@@ -194,8 +193,8 @@ def étage():
     t.left(180)
     t.right(90)
 
-def étage_deux_fene():
-    ''' Fonction qui trace l'étage '''
+def etage_deux_fenetre():
+    ''' Fonction qui trace un étage avec 2 fenêtres '''
     t.begin_fill()
 
     t.left(90)
@@ -236,13 +235,14 @@ def étage_deux_fene():
     t.right(90)
 
 def couleur_random():
-    ''' Change la couleur du pinceau aléatoirement'''
+    ''' Change la couleur du remplissage aléatoirement'''
     r = random.randint(0,255)
     g = random.randint(0,255)
     b = random.randint(0,255)
     t.fillcolor(r,g,b)
 
 def faire_batiment():
+    ''' Dessine un batiment à la position de la tortue '''
     t.pendown()
     # déssine le bas
     couleur_random()
@@ -250,20 +250,20 @@ def faire_batiment():
         case 0:
             bas()
         case 1:
-            bas_fene()
+            bas_fenetre()
     # déssine les étages intermédiaires
     for i in range(random.randint(0,5)):
         couleur_random()
         match random.randint(0,1):
             case 0:
-                étage()
+                etage()
             case 1:
-                étage_deux_fene()
+                etage_deux_fenetre()
     # déssine le toit
     couleur_random()
     match random.randint(0,1):
         case 0:
-            toit()
+            toit_pointu()
         case 1:
             toit_rond()
 
@@ -272,7 +272,7 @@ def faire_batiment():
     t.forward(150)
 
 def batiments():
-    ''' Fonction qui trace un batiment '''
+    ''' Fonction qui trace une rue de batiments '''
     for i in range(nb_batiment):
         faire_batiment()
 
@@ -285,11 +285,12 @@ t.forward(370)
 t.left(90)
 t.pendown()
 
-print(t.position())
-
+# lance la construction de la rue
 batiments()
-#pour la vitesse instant
+
+#pour la vitesse instantanée
 if instant_speed == True:
     t.update()
+
 # garde la fenêtre allumé
 t.mainloop()
